@@ -80,7 +80,7 @@ pair<int, int> CBateau::getPosition()
  */
 void CBateau::setPosition(int i, int j)
 {
-  if (i < 0 || i >= TAILLE_GRILLE || j < 0 || j+m_taille-1 >= TAILLE_GRILLE)
+  if (i < 0 || i >= (TAILLE_GRILLE - 1) || j < 0 || j + m_taille - 1 >= (TAILLE_GRILLE - 1))
   {
     cout << "Erreur : position du bateau hors grille" << endl;
     return;
@@ -129,7 +129,7 @@ bool CBateau::getDegats(int i)
  */
 bool CBateau::tirAdverse(pair<int, int> p)
 {
-  if (p.first < 0 || p.first >= TAILLE_GRILLE || p.second < 0 || p.second >= TAILLE_GRILLE)
+  if (p.first < 0 || p.first >= (TAILLE_GRILLE - 1) || p.second < 0 || p.second >= (TAILLE_GRILLE - 1))
   {
     cout << "Erreur : tir en dehors de la grille" << endl;
     return false;

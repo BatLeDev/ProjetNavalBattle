@@ -50,7 +50,7 @@ void CArmada::getArmadaFromFile()
 
     cout << "Import du bateau : " << ligne << endl;
 
-    if (nombreCasesHorizontales > TAILLE_GRILLE) {
+    if (nombreCasesHorizontales > TAILLE_GRILLE-1) {
       cout << "Erreur : le bateau " << nomDuBateau << " est trop grand pour la grille" << endl;
     }
     else if (nombreSurGrille < 1) {
@@ -93,12 +93,12 @@ bool CArmada::placerAleatoirement()
     while (!place && essais < MAXESSAIS) // Tant que le nombre d'essais n'est pas atteint
     {
       // Génère un nombre aléatoire entre 0 et TAILLE_GRILLE-1 pour la ligne (si grille 10x10, entre 0 et 9)
-      int ligne = rand() % TAILLE_GRILLE; 
+      int ligne = rand() % (TAILLE_GRILLE-1);
       
       // Génère un nombre aléatoire entre 0 et (TAILLE_GRILLE - tailleDuBateau) pour la colonne
       // si grille 10x10 et bateau de taille 3 la colonne sera entre 0 et 7, 
       // Limites : le bateau peut etre en 0-3 ou 7-9
-      int colonne = rand() % (TAILLE_GRILLE - bateau->getTaille() + 1);
+      int colonne = rand() % (TAILLE_GRILLE - bateau->getTaille());
 
       // On cherche a savoir si cette position est correcte pour le bateau, ou si il y a une collision
       bool collision = false;

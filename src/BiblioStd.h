@@ -23,7 +23,7 @@
 
 /*** CONSTANTES ***/
 // Taille de la grille
-#define TAILLE_GRILLE 10
+#define TAILLE_GRILLE 11
 // Paramètres réseau
 #define MAXHOSTNAME 200
 #define MAXCONNECTIONS 5

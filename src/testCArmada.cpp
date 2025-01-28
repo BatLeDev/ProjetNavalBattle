@@ -177,7 +177,7 @@ void testPlacerAleatoirement()
     cout << "Erreur : le placement des bateaux devrai être possible" << endl;
   }
 
-  cout << "Cas limite : Placement aléatoire des bateaux qui remplissent 100/100 de la grille (Peut échouer)" << endl;
+  cout << "Cas limite : Placement aléatoire des bateaux qui remplissent toute la grille (Peut échouer)" << endl;
 
   CArmada a2 = CArmada();
   for (int i = 0; i < 10; i++) {
