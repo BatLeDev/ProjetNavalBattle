@@ -2,6 +2,9 @@
 
 void testConstructeur1();
 void testConstructeur2EtAccesseurs();
+void testCopyConstructeur();
+void testOperatorAffectation();
+void testDestructeur();
 void testSetPosition();
 void testTirAdverse();
 void testGetDegats();
@@ -11,6 +14,9 @@ int main()
 {
   testConstructeur1();
   testConstructeur2EtAccesseurs();
+  testCopyConstructeur();
+  testOperatorAffectation();
+  testDestructeur();
   testSetPosition();
   testTirAdverse();
   testGetDegats();
@@ -58,6 +64,87 @@ void testConstructeur2EtAccesseurs()
   {
     cout << "Erreur : position du bateau incorrecte" << endl;
   }
+
+  cout << "------------------------------" << endl;
+}
+
+void testCopyConstructeur()
+{
+  cout << "Test du constructeur de copie" << endl;
+
+  CBateau b8 = CBateau("voilier", {5, 2}, 4);
+  b8.tirAdverse({5, 2}); // Tire sur la 1ere case du bateau
+  CBateau b9 = CBateau(b8);
+  b8.tirAdverse({5, 3}); // Tire sur la 2ème case du bateau 8 (ne doit pas affecter le bateau 9)
+
+  cout << "Cas normal : Copie d'un bateau" << endl;
+  cout << b9 << endl;
+
+  // nom
+  if (b9.getNom() != "voilier")
+  {
+    cout << "Erreur : nom du bateau incorrect" << endl;
+  }
+
+  // m_pDegats
+  cout << "Cas normal : Les dégats du bateau sont copiés" << endl;
+  if (!b9.getDegats(0))
+  {
+    cout << "Erreur : le bateau devrai avoir un dégât sur sa première case" << endl;
+  } else if (b9.getDegats(1))
+  {
+    cout << "Erreur : le bateau ne devrai pas avoir de dégât sur sa deuxième case" << endl;
+  } else {
+    cout << "Ok" << endl;
+  }
+
+  cout << "------------------------------" << endl;
+}
+
+void testOperatorAffectation()
+{
+  cout << "Test de l'opérateur d'affectation" << endl;
+
+  CBateau b10 = CBateau("voilier", {5, 2}, 4);
+  b10.tirAdverse({5, 2}); // Tire sur la 1ere case du bateau
+
+  CBateau b11 = CBateau("sous-marin", {3, 4}, 3);
+  b11.tirAdverse({3, 5}); // Tire sur la 2ème case du bateau
+
+  cout << "Cas normal : Affectation d'un bateau" << endl;
+  b11 = b10;
+  cout << b11 << endl;
+
+  // nom
+  if (b11.getNom() != "voilier")
+  {
+    cout << "Erreur : nom du bateau incorrect" << endl;
+  }
+
+  // m_pDegats
+  cout << "Cas normal : Les dégats du bateau sont copiés" << endl;
+  if (!b11.getDegats(0))
+  {
+    cout << "Erreur : le bateau devrai avoir un dégât sur sa première case" << endl;
+  } else if (b11.getDegats(1))
+  {
+    cout << "Erreur : le bateau ne devrai pas avoir de dégât sur sa deuxième case" << endl;
+  } else {
+    cout << "Ok" << endl;
+  }
+
+  cout << "------------------------------" << endl;
+}
+
+void testDestructeur()
+{
+  cout << "Test du destructeur" << endl;
+
+  CBateau* b12 = new CBateau("voilier", {5, 2}, 4);
+
+  cout << "Cas normal : Destruction d'un bateau" << endl;
+  cout << "Le bateau doit se détruire :" << endl;
+  delete b12;
 
   cout << "------------------------------" << endl;
 }

@@ -24,6 +24,10 @@ class CBateau {
 	public:
 		CBateau();             // construction par défaut : "neant", (0,0), 0, NULL
     CBateau(string n, pair<int, int> p, int t); // constructeur, le bateau n'a encore aucune case touchée (m_pDegats de taille t à faux partout)
+    
+    // Règle des 3
+    CBateau(const CBateau& b); // constructeur de copie
+    CBateau& operator=(const CBateau& b); // opérateur d'affectation
     ~CBateau();            // destructeur
 
     bool estCoule();       // renvoie vrai si toutes les cases du bateau sont touchées (m_taille cases à vrai dans m_pDegats)

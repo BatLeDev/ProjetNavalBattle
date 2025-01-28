@@ -25,6 +25,25 @@ CBateau::CBateau(string n, pair<int, int> p, int t)
   this->setPosition(p.first, p.second);
 }
 
+/*
+ * Copy constructeur
+ * Créé un nouveau bateau à partir d'un autre (en créant également un nouveau tableau de dégâts)
+ * Respect de la règle des 3 car m_pDegats est un pointeur (tableau dynamique)
+ * @param b le bateau à copier
+ * @return un nouveau bateau identique à b
+ */
+CBateau::CBateau(const CBateau& b)
+{
+  m_taille = b.m_taille;
+  m_nom = b.m_nom;
+  m_position = b.m_position;
+  m_pDegats = new bool[m_taille];
+  for (int i = 0; i < m_taille; i++)
+  {
+    m_pDegats[i] = b.m_pDegats[i];
+  }
+}
+
 /**********************************************/
 
 /*
@@ -146,14 +165,38 @@ ostream& operator<<(ostream& os, CBateau & theB)
 
 /*
  * Destructeur
- * Libère la mémoire allouée pour m_pDegats car c'est un tableau dynamique
+ * Libère la mémoire allouée pour m_pDegats
+ * Respect de la règle des 3 car m_pDegats est un pointeur (tableau dynamique)
  */
 CBateau::~CBateau()
 {
   cout << "Destructeur de CBateau, adr = " << this << endl;
-  if (m_pDegats != NULL)
+  if (m_pDegats != nullptr)
   {
     delete m_pDegats;
-    m_pDegats = NULL;
+    m_pDegats = nullptr;
   }
+}
+
+/*
+ * Surcharge de l'opérateur d'affectation
+ * Respect de la règle des 3 car m_pDegats est un pointeur (tableau dynamique)
+ * @param b le bateau à copier
+ */
+CBateau& CBateau::operator=(const CBateau& bToCopy)
+{
+  if (this != &bToCopy)
+  {
+    this->m_taille = bToCopy.m_taille;
+    this->m_nom = bToCopy.m_nom;
+    this->m_position = bToCopy.m_position;
+
+    if (m_pDegats != nullptr) delete m_pDegats;
+    m_pDegats = new bool[m_taille];
+    for (int i = 0; i < this->m_taille; i++)
+    {
+      m_pDegats[i] = bToCopy.m_pDegats[i];
+    }
+  }
+  return *this;
 }
