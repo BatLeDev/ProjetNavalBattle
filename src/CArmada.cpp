@@ -2,11 +2,14 @@
 
 /*
  * Ajoute un bateau à la liste des bateaux de l'armada avec la méthode push_back de la class vector
- * @param &unBat adresse du bateau à ajouter à la liste m_listeBateaux
+ * unBat est passé par référence (car présence de &) pour éviter de copier inutilement le bateau, 
+ * car la méthode push_back créé également une copie
+ * 
+ * @param &unBat référence vers le bateau à ajouter
  */
-void CArmada::ajouterBateau(CBateau &unBat) 
+void CArmada::ajouterBateau(CBateau& unBat) 
 {
-  m_listeBateaux.push_back(unBat);
+  m_listeBateaux.push_back(unBat); // La méthode push_back créé une copie du bateau et l'ajoute à la liste
 }
 
 /**********************************************/
@@ -21,41 +24,48 @@ void CArmada::ajouterBateau(CBateau &unBat)
  */
 void CArmada::getArmadaFromFile() 
 {
-  const char* nomFich = "./data/flotille.txt"; // Fichier source
+  const char* nomFich = "flotille.txt"; // Fichier source
 
   ifstream fluxIn(nomFich, ios::in); // Constructeur de la classe ifstream pour lire le fichier
 
   while (!fluxIn.eof()) // lecture du fichier ligne par ligne
   {
     string ligne;
-    getline(fluxIn, ligne); // Lecture de la ligne (jusqu'a '\n' qui est ignoré et pas ajouté à boatLine)
+    getline(fluxIn, ligne, '\n'); // Lecture de la ligne (jusqu'a '\n' qui est ignoré et pas ajouté à ligne)
 
-    if (ligne[0] != '#') // Ignore les lignes commençant par #
-    { 
-      // Séparation des données
-      istringstream tmp(ligne);
-      string nomDuBateau;
-      int nombreSurGrille;
-      int nombreCasesHorizontales;
+    if (ligne[0] == '#' || ligne.empty()) continue;  // Ignore les lignes commençant par # ou vides
 
-      tmp >> nomDuBateau >> nombreSurGrille >> nombreCasesHorizontales;
 
-      if (nombreCasesHorizontales > TAILLE_GRILLE) {
-        cout << "Erreur : le bateau " << nomDuBateau << " est trop grand pour la grille" << endl;
-      }
-      else if (nombreSurGrille < 1) {
-        cout << "Erreur : le bateau " << nomDuBateau << " doit être présent au moins une fois sur la grille" << endl;
-      }
-      else if (nombreCasesHorizontales < 2) {
-        cout << "Erreur : le bateau " << nomDuBateau << " doit avoir au moins 2 cases" << endl;
-      } else {
-        for (int i = 0; i < nombreSurGrille; i++) // On ajoute le bateau autant de fois que demandé
-        {
-          CBateau b(nomDuBateau, {0, 0}, nombreCasesHorizontales);
-          ajouterBateau(b);
-        }
+    // Séparation des données
+    istringstream tmp(ligne);
+    string nomDuBateau;
+    int nombreSurGrille;
+    int nombreCasesHorizontales;
+
+    if (!(tmp >> nomDuBateau >> nombreSurGrille >> nombreCasesHorizontales)) // tmp renvoie faux si la ligne contiens des types de données incorrectes
+    {
+      cout << "Erreur : la ligne est mal formatée : \"" << ligne << "\"" << endl;
+      continue;
+    }
+
+    cout << "Import du bateau : " << ligne << endl;
+
+    if (nombreCasesHorizontales > TAILLE_GRILLE) {
+      cout << "Erreur : le bateau " << nomDuBateau << " est trop grand pour la grille" << endl;
+    }
+    else if (nombreSurGrille < 1) {
+      cout << "Erreur : le bateau " << nomDuBateau << " doit être présent au moins une fois sur la grille" << endl;
+    }
+    else if (nombreCasesHorizontales < 2) {
+      cout << "Erreur : le bateau " << nomDuBateau << " doit avoir au moins 2 cases" << endl;
+    } else {
+      CBateau b(nomDuBateau, {0, 0}, nombreCasesHorizontales);
+      for (int i = 0; i < nombreSurGrille; i++) // On ajoute le bateau autant de fois que demandé
+      {
+        ajouterBateau(b);
       }
     }
+    
   }
 
   fluxIn.close();
@@ -74,7 +84,7 @@ bool CArmada::placerAleatoirement()
   bool result = true;
   srand(time(NULL));
 
-  for (int i = 0; i < m_listeBateaux.size(); i++) // Parcour tous les bateau de la liste
+  for (int i = 0; i < getEffectifTotal(); i++) // Parcour tous les bateau de la liste
   {
     CBateau& bateau = m_listeBateaux[i];
     int essais = 0;
@@ -117,7 +127,15 @@ bool CArmada::placerAleatoirement()
       }
       essais++;
     }
+
+    if (!place) // Si le bateau n'a pas pu être placé
+    {
+      result = false;
+      break;
+    }
   }
+
+  return result;
 }
 
 /**********************************************/
@@ -129,7 +147,7 @@ bool CArmada::placerAleatoirement()
 int CArmada::getEffectif()
 {
   int effectif = 0;
-  for (int i = 0; i < m_listeBateaux.size(); i++)
+  for (int i = 0; i < getEffectifTotal(); i++)
   {
     if (!m_listeBateaux[i].estCoule())
     {
@@ -159,7 +177,7 @@ int CArmada::getEffectifTotal()
 int CArmada::getNbreTotCases()
 {
   int total = 0;
-  for (int i = 0; i < m_listeBateaux.size(); i++)
+  for (int i = 0; i < getEffectifTotal(); i++)
   {
     total += m_listeBateaux[i].getTaille();
   }
@@ -175,5 +193,5 @@ int CArmada::getNbreTotCases()
  */
 CBateau* CArmada::getBateau(int i)
 {
-  return &m_listeBateaux[i];
+  return &m_listeBateaux[i]; // Ici le & permet de récupérer l'adresse du bateau
 }

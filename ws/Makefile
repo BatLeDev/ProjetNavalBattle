@@ -39,7 +39,27 @@ compilTestCBateau :
 	@echo Compilation testCBateau
 	$(GPP) $(SRC)/testCBateau.cpp $(BIN)/CBateau.o -o $(BIN)/testCBateau.bin
 
-# A VOUS D'ECRIRE LA SUITE...
+# Test de la classe CArmada
+# Compilation du lanceur testCArmada, pour cela (l'ordre de compilation est important en C++) :
+#	- supprimer le contenu du répertoire "./bin" et
+# - d'abord compiler la classe CBateau
+#	- puis compiler CArmada
+#	- ensuite compiler testCArmada
+
+# La cible "testCArmada" est exécutée en la déclarant correctement sous VSCode
+testCArmada : deleteAll compilCBateau compilCArmada compilTestCArmada
+
+# La cible "compilCArmada" est exécutée en la déclarant correctement sous VSCode
+compilCArmada :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation CArmada
+	$(GPP) $(SRC)/CArmada.cpp -o $(BIN)/CArmada.o -c
+
+# La cible "compilTestCArmada" est exécutée en la déclarant correctement sous VSCode
+compilTestCArmada :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation testCArmada
+	$(GPP) $(SRC)/testCArmada.cpp $(BIN)/CBateau.o $(BIN)/CArmada.o -o $(BIN)/testCArmada.bin
 
 # ICI, la cible de compilation finale pour obtenir main.bin
 # A executer A LA FIN du projet en s'assurant que toutes les classes du projet compilent et s'exécutent sans erreurs !
