@@ -87,7 +87,7 @@ bool CArmada::placerAleatoirement()
 
   for (int i = 0; i < effectif; i++) // Parcour tous les bateau de la liste
   {
-    CBateau& bateau = m_listeBateaux[i];
+    CBateau* bateau = &m_listeBateaux[i];
     int essais = 0;
     bool place = false; // Passe a vrais quand le bateau sera positionné
     while (!place && essais < MAXESSAIS) // Tant que le nombre d'essais n'est pas atteint
@@ -98,18 +98,18 @@ bool CArmada::placerAleatoirement()
       // Génère un nombre aléatoire entre 0 et (TAILLE_GRILLE - tailleDuBateau) pour la colonne
       // si grille 10x10 et bateau de taille 3 la colonne sera entre 0 et 7, 
       // Limites : le bateau peut etre en 0-3 ou 7-9
-      int colonne = rand() % (TAILLE_GRILLE - bateau.getTaille() + 1);
+      int colonne = rand() % (TAILLE_GRILLE - bateau->getTaille() + 1);
 
       // On cherche a savoir si cette position est correcte pour le bateau, ou si il y a une collision
       bool collision = false;
       for (int j = 0; j < i; j++) // Parcour des bateaux déjà placés
       {
-        CBateau& autre = m_listeBateaux[j];
-        if (autre.getPosition().first == ligne) // Check si les bateaux sont sur la même ligne
+        CBateau* autre = &m_listeBateaux[j];
+        if (autre->getPosition().first == ligne) // Check si les bateaux sont sur la même ligne
         {
-          int debutAutre = autre.getPosition().second; // Début du bateau déjà placé sur la ligne
-          int finAutre = debutAutre + autre.getTaille() - 1; // Fin du bateau déjà placé sur la ligne
-          int finBateau = colonne + bateau.getTaille() - 1; // Fin du bateau à placer sur la ligne
+          int debutAutre = autre->getPosition().second; // Début du bateau déjà placé sur la ligne
+          int finAutre = debutAutre + autre->getTaille() - 1; // Fin du bateau déjà placé sur la ligne
+          int finBateau = colonne + bateau->getTaille() - 1; // Fin du bateau à placer sur la ligne
           if (
             (colonne >= debutAutre && colonne <= finAutre) || // Si le début du bateau est dans un autre bateau
             (finBateau >= debutAutre && finBateau <= finAutre) // Si la fin du bateau est dans un autre bateau
@@ -123,7 +123,7 @@ bool CArmada::placerAleatoirement()
 
       if (!collision) // Si il n'y a pas de collision
       {
-        bateau.setPosition(ligne, colonne); // On place le bateau
+        bateau->setPosition(ligne, colonne); // On place le bateau
         place = true;
       }
       essais++;
@@ -148,7 +148,9 @@ bool CArmada::placerAleatoirement()
 int CArmada::getEffectif()
 {
   int effectif = 0;
-  for (int i = 0; i < getEffectifTotal(); i++)
+  int effectifTotal = getEffectifTotal();
+
+  for (int i = 0; i < effectifTotal; i++)
   {
     if (!m_listeBateaux[i].estCoule())
     {

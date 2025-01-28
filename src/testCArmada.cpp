@@ -4,6 +4,8 @@ void testConstructeur();
 void testAjouterBateau();
 void testGetArmadaFromFile();
 void testPlacerAleatoirement();
+void testGetEffectif();
+void testGetNbreTotCases();
 
 int main()
 {
@@ -11,6 +13,10 @@ int main()
   testAjouterBateau();
   testGetArmadaFromFile();
   testPlacerAleatoirement();
+  testGetEffectif();
+  testGetNbreTotCases();
+
+  cout << "getTotalEffectif est testé par l'intermédiaire de toutes les autres classes" << endl;
 
   return 0;
 }
@@ -196,4 +202,104 @@ void testPlacerAleatoirement()
   } else {
     cout << "Ok" << endl;
   }
+
+  cout << "------------------------------" << endl;
+}
+
+void testGetEffectif()
+{
+  cout << "Test de la méthode getEffectif" << endl;
+
+  cout << "Cas normal : 0 bateaux coulés" << endl;
+  CArmada a1 = CArmada();
+  CBateau b1 = CBateau("Voilier", {0, 0}, 2);
+  CBateau b2 = CBateau("Croiseur", {0, 0}, 3);
+
+  a1.ajouterBateau(b1);
+  a1.ajouterBateau(b2);
+
+  if (a1.getEffectif() != 2)
+  {
+    cout << "Erreur : l'armada devrai contenir 2 bateaux non coulés" << endl;
+  } else {
+    cout << "Ok" << endl;
+  }
+
+  cout << "Cas normal : 1 bateau coulé" << endl;
+  
+  CArmada a2 = CArmada();
+  b1.tirAdverse(make_pair(0, 0));
+  b1.tirAdverse(make_pair(0, 1));
+  a2.ajouterBateau(b1);
+  a2.ajouterBateau(b2);
+
+  if (a2.getEffectif() != 1)
+  {
+    cout << "Erreur : l'armada devrai contenir 1 bateau non coulé" << endl;
+  } else {
+    cout << "Ok" << endl;
+  }
+
+  cout << "Cas limite : 2 bateaux coulés" << endl;
+
+  CArmada a3 = CArmada();
+  b2.tirAdverse(make_pair(0, 0));
+  b2.tirAdverse(make_pair(0, 1));
+  b2.tirAdverse(make_pair(0, 2));
+
+  a3.ajouterBateau(b1);
+  a3.ajouterBateau(b2);
+
+  if (a3.getEffectif() != 0)
+  {
+    cout << "Erreur : l'armada devrai contenir 0 bateau non coulé" << endl;
+  } else {
+    cout << "Ok" << endl;
+  }
+
+  cout << "Cas limite : Armada vide" << endl;
+
+  CArmada a4 = CArmada();
+
+  if (a4.getEffectif() != 0)
+  {
+    cout << "Erreur : l'effectif de l'armada devrai être de 0" << endl;
+  } else {
+    cout << "Ok" << endl;
+  }
+
+  cout << "------------------------------" << endl;
+}
+
+void testGetNbreTotCases()
+{
+  cout << "Test de la méthode getNbreTotCases" << endl;
+
+  cout << "Cas normal : 2 bateaux de 2 cases" << endl;
+  CArmada a1 = CArmada();
+  CBateau b1 = CBateau("Voilier", {0, 0}, 2);
+  CBateau b2 = CBateau("Croiseur", {0, 0}, 2);
+
+  a1.ajouterBateau(b1);
+  a1.ajouterBateau(b2);
+
+  if (a1.getNbreTotCases() != 4)
+  {
+    cout << "Erreur : l'armada devrai contenir 4 cases" << endl;
+  } else {
+    cout << "Ok" << endl;
+  }
+
+  cout << "Cas limite : 0 bateaux" << endl;
+
+  CArmada a2 = CArmada();
+
+  if (a2.getNbreTotCases() != 0)
+  {
+    cout << "Erreur : l'armada devrai contenir 0 cases" << endl;
+  } else {
+    cout << "Ok" << endl;
+  }
+
+  cout << "------------------------------" << endl;
 }
