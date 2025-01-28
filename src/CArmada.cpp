@@ -196,5 +196,6 @@ int CArmada::getNbreTotCases()
  */
 CBateau* CArmada::getBateau(int i)
 {
+  if (i < 0 || i >= getEffectifTotal()) return nullptr;
   return &m_listeBateaux[i]; // Ici le & permet de récupérer l'adresse du bateau
 }

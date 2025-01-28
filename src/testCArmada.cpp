@@ -6,6 +6,7 @@ void testGetArmadaFromFile();
 void testPlacerAleatoirement();
 void testGetEffectif();
 void testGetNbreTotCases();
+void testGetBateau();
 
 int main()
 {
@@ -15,6 +16,7 @@ int main()
   testPlacerAleatoirement();
   testGetEffectif();
   testGetNbreTotCases();
+  testGetBateau();
 
   cout << "getTotalEffectif est testé par l'intermédiaire de toutes les autres classes" << endl;
 
@@ -298,6 +300,55 @@ void testGetNbreTotCases()
   {
     cout << "Erreur : l'armada devrai contenir 0 cases" << endl;
   } else {
+    cout << "Ok" << endl;
+  }
+
+  cout << "------------------------------" << endl;
+}
+
+void testGetBateau()
+{
+  cout << "Test de la méthode getBateau" << endl;
+
+  CArmada a1 = CArmada();
+  CBateau b1 = CBateau("Voilier", {0, 0}, 2);
+  CBateau b2 = CBateau("Croiseur", {0, 0}, 2);
+  b2.tirAdverse(make_pair(0, 0));
+  b2.tirAdverse(make_pair(0, 1));
+  a1.ajouterBateau(b1);
+  a1.ajouterBateau(b2);
+
+  cout << "Cas normal : Récupération du premier bateau" << endl;
+  if (a1.getBateau(0)->getNom() != "Voilier")
+  {
+    cout << "Erreur : le premier bateau devrai être le voilier" << endl;
+  }
+  else if (a1.getBateau(0) == &b1)
+  {
+    cout << "Erreur : les bateaux ne sont pas copiés lors de l'insertion dans l'armada" << endl;
+  } 
+  else
+  {
+    cout << "Ok" << endl;
+  }
+
+  cout << "Cas limite : Récupération d'un bateau coulé" << endl;
+  if (a1.getBateau(1)->getNom() != "Croiseur")
+  {
+    cout << "Erreur : le deuxième bateau devrai être le croiseur" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
+  }
+
+  cout << "Cas limite : Récupération d'un bateau inexistant" << endl;
+  if (a1.getBateau(2) != nullptr)
+  {
+    cout << "Erreur : le troisième bateau ne devrai pas exister" << endl;
+  }
+  else
+  {
     cout << "Ok" << endl;
   }
 
