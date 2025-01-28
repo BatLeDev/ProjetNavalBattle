@@ -83,12 +83,13 @@ bool CArmada::placerAleatoirement()
 {
   bool result = true;
   srand(time(NULL));
+  int effectif = getEffectifTotal();
 
-  for (int i = 0; i < getEffectifTotal(); i++) // Parcour tous les bateau de la liste
+  for (int i = 0; i < effectif; i++) // Parcour tous les bateau de la liste
   {
     CBateau& bateau = m_listeBateaux[i];
     int essais = 0;
-    bool place = false; // Passe a vrais le bateau sera positionné
+    bool place = false; // Passe a vrais quand le bateau sera positionné
     while (!place && essais < MAXESSAIS) // Tant que le nombre d'essais n'est pas atteint
     {
       // Génère un nombre aléatoire entre 0 et TAILLE_GRILLE-1 pour la ligne (si grille 10x10, entre 0 et 9)

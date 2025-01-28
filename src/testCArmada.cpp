@@ -3,12 +3,14 @@
 void testConstructeur();
 void testAjouterBateau();
 void testGetArmadaFromFile();
+void testPlacerAleatoirement();
 
 int main()
 {
   testConstructeur();
   testAjouterBateau();
   testGetArmadaFromFile();
+  testPlacerAleatoirement();
 
   return 0;
 }
@@ -145,4 +147,53 @@ void testGetArmadaFromFile()
   }
 
   cout << "------------------------------" << endl;
+}
+
+void testPlacerAleatoirement()
+{
+  cout << "Test de la méthode placerAleatoirement" << endl;
+
+  cout << "Cas normal : Placement aléatoire des bateaux" << endl;
+  CBateau b1 = CBateau("Porte-avion", {0, 0}, 7);
+  CBateau b2 = CBateau("Croiseur", {0, 0}, 10);
+
+  CArmada a1 = CArmada();
+  a1.ajouterBateau(b1);
+  a1.ajouterBateau(b2);
+  a1.ajouterBateau(b2);
+
+  if (a1.placerAleatoirement())
+  {
+    cout << "Ok" << endl;
+  } else {
+    cout << "Erreur : le placement des bateaux devrai être possible" << endl;
+  }
+
+  cout << "Cas limite : Placement aléatoire des bateaux qui remplissent 100/100 de la grille (Peut échouer)" << endl;
+
+  CArmada a2 = CArmada();
+  for (int i = 0; i < 10; i++) {
+    a2.ajouterBateau(b2);
+  }
+
+  if (a2.placerAleatoirement())
+  {
+    cout << "Ok" << endl;
+  } else {
+    cout << "Erreur : le placement des bateaux devrai être possible" << endl;
+  }
+
+  cout << "Cas d'erreur : Placement aléatoire des bateaux impossible" << endl;
+
+  CArmada a3 = CArmada();
+  for (int i = 0; i<11; i++) {
+    a3.ajouterBateau(b1);
+  }
+
+  if (a3.placerAleatoirement())
+  {
+    cout << "Erreur : le placement des bateaux devrai être impossible" << endl;
+  } else {
+    cout << "Ok" << endl;
+  }
 }
