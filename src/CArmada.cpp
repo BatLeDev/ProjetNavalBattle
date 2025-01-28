@@ -102,7 +102,8 @@ bool CArmada::placerAleatoirement()
 
       // On cherche a savoir si cette position est correcte pour le bateau, ou si il y a une collision
       bool collision = false;
-      for (int j = 0; j < i; j++) // Parcour des bateaux déjà placés
+      int j = 0;
+      while (j < i && !collision) // Parcour des bateaux déjà placés
       {
         CBateau* autre = &m_listeBateaux[j];
         if (autre->getPosition().first == ligne) // Check si les bateaux sont sur la même ligne
@@ -116,9 +117,9 @@ bool CArmada::placerAleatoirement()
           )
           {
             collision = true;
-            break;
           }
         }
+        j++;
       }
 
       if (!collision) // Si il n'y a pas de collision
