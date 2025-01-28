@@ -24,7 +24,7 @@ void CArmada::ajouterBateau(CBateau& unBat)
  */
 void CArmada::getArmadaFromFile() 
 {
-  const char* nomFich = "flotille.txt"; // Fichier source
+  const char* nomFich = "../data/flotille.txt"; // Fichier source
 
   ifstream fluxIn(nomFich, ios::in); // Constructeur de la classe ifstream pour lire le fichier
 

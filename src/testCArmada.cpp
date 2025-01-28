@@ -85,7 +85,7 @@ void testGetArmadaFromFile()
 
   cout << "Cas normal : Lecture du fichier flotille.txt" << endl;
   // Remplissage du fichier flotille.txt
-  ofstream file("flotille.txt");
+  ofstream file("../data/flotille.txt");
   file << "Porte-avion 1 4" << endl;
   file << "Croiseur 2 3" << endl;
   file << "Torpilleur 2 2" << endl;
@@ -103,7 +103,7 @@ void testGetArmadaFromFile()
 
   cout << "Cas limite : Lecture du fichier flotille.txt vide" << endl;
   // Remplissage du fichier flotille.txt
-  ofstream file2("flotille.txt");
+  ofstream file2("../data/flotille.txt");
   file2.close();
 
   CArmada a2 = CArmada();
@@ -118,7 +118,7 @@ void testGetArmadaFromFile()
 
   cout << "Cas limite : Lecture du fichier flotille.txt avec des commentaires" << endl;
   // Remplissage du fichier flotille.txt
-  ofstream file3("flotille.txt");
+  ofstream file3("../data/flotille.txt");
   file3 << "# Porte-avion 1 4" << endl;
   file3 << "Croiseur 2 3" << endl;
   file3 << "Torpilleur 2 2" << endl;
@@ -136,7 +136,7 @@ void testGetArmadaFromFile()
 
   cout << "Cas d'erreur : Lecture du fichier flotille.txt avec des erreurs" << endl;
   // Remplissage du fichier flotille.txt
-  ofstream file4("flotille.txt");
+  ofstream file4("../data/flotille.txt");
   file4 << "Porte-avion 1 4" << endl;
   file4 << "2 Croiseur5" << endl;
   file4 << "   # il y a des espaces avant le commentaire" << endl;
