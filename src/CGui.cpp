@@ -64,7 +64,13 @@ void CGui::setArmadaCoups(CArmada *pArmada, CCoups *pCoups)
  */
 bool CGui::positionnerBateaux()
 {
-  bool ret = m_pArmada->placerAleatoirement();
+  bool ret = false;
+  if (m_pArmada == nullptr)
+  {
+    cout << "Erreur : pointeur non initialisé" << endl;
+  } else {
+    m_pArmada->placerAleatoirement();
+  }
   return ret;
 }
 
@@ -116,6 +122,12 @@ void CGui::affichePerdu()
  */
 void CGui::remplirDeuxGrilles(ostream &os)
 {
+  if (m_pArmada == nullptr || m_pCoups == nullptr)
+  {
+    cout << "Erreur : pointeurs non initialisés" << endl;
+    return;
+  }
+
   // Remplissage initial des grilles
   for (int i = 0; i < TAILLE_GRILLE - 1; ++i)
   {
@@ -175,8 +187,40 @@ void CGui::remplirDeuxGrilles(ostream &os)
     m_grilleAdv[p.first][p.second] = 'O';
   }
 
-  afficherLaGrille(os, "joueur");
-  afficherLaGrille(os, "adversaire");
+  // Affichage simple des grilles, l'une en dessous de l'autre
+  /*
+    affiherLaGrille(os, "joueur")
+    afficherLaGrille(os, "adversaire")
+  */
+
+  /*
+    Pour un affichage plus élégant, je me suis permi un prompt a ChatGPT (seul code généré par IA dans ce travail)
+    Je lui ai demandé de reformater la sortie de la fonction membre afficherLaGrille pour obtenir un affichage des 2 grilles cote a cote
+    J'ai essayé de rajouter des commentaires au code généré pour comprendre son fonctionnement et je l'ai légèrement modifié pour le simpifier
+  */
+  stringstream ssJoueur, ssAdv; // Dans un premier temps, on récupère la sortie de la fonction dans des flux de chaines de caractères, pour mieux les formater par la suite
+  afficherLaGrille(ssJoueur, "joueur");
+  afficherLaGrille(ssAdv, "adversaire");
+
+  // Grace a la méthode getline qui permet, comme pour un fichier, de lire les lignes d'un flux, 
+  // on sauvegarde dans des vecteurs chaque ligne des 2 grilles
+  vector<string> lignesJoueur, lignesAdv;
+  string ligne;
+  while (getline(ssJoueur, ligne))
+  {
+    lignesJoueur.push_back(ligne);
+  }
+  while (getline(ssAdv, ligne))
+  {
+    lignesAdv.push_back(ligne);
+  }
+
+  size_t nbLignes = lignesJoueur.size(); // Le format de la fonction membre size de size_t, qui correspond globalement a un int (pas exactectement)
+
+  for (size_t i = 0; i < nbLignes; ++i) // Pour chaque lignes, on les fusionnes pour ne recréé plus qu'une seul ligne, séparé par une tabulation
+  {
+    os << lignesJoueur[i] << "\t" << lignesAdv[i] << endl; // '\t' est le caractère de tabulation sous linux,
+  }
 }
 
 /**********************************************/

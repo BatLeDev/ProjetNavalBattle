@@ -15,7 +15,7 @@ void CArmada::ajouterBateau(CBateau& unBat)
 /**********************************************/
 
 /*
- * Lis le fichier flotille.txt présent dans le dossier ./data
+ * Lis le fichier flotille.txt présent dans le dossier ./ws
  * et ajoute les bateau à la liste m_listeBateaux en position 0,0
  * Ce fichier contient la liste complète de tous les bateaux au format :
  * nomDuBateau<ESPACE>nombreSurGrille<ESPACE>nombreCasesHorizontales
@@ -24,7 +24,7 @@ void CArmada::ajouterBateau(CBateau& unBat)
  */
 void CArmada::getArmadaFromFile() 
 {
-  const char* nomFich = "../data/flotille.txt"; // Fichier source
+  const char* nomFich = "../ws/flotille.txt"; // Fichier source
 
   ifstream fluxIn(nomFich, ios::in); // Constructeur de la classe ifstream pour lire le fichier
 

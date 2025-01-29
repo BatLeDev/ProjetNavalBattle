@@ -61,11 +61,77 @@ compilTestCArmada :
 	@echo Compilation testCArmada
 	$(GPP) $(SRC)/testCArmada.cpp $(BIN)/CBateau.o $(BIN)/CArmada.o -o $(BIN)/testCArmada.bin
 
+# Test de la classe CGui
+# Compilation du lanceur testCGui, pour cela (l'ordre de compilation est important en C++) :
+#	- supprimer le contenu du répertoire "./bin"
+# - compiler la classe CBateau
+# - ensuite compiler la classe CArmada
+# - puis compiler la classe CCoups
+#	- puis compiler CGui
+#	- et enfin compiler testCGui
+
+# La cible "testCGui" est exécutée en la déclarant correctement sous VSCode
+testCGui : deleteAll compilCBateau compilCArmada compilCCoups compilCGui compilTestCGui
+
+# La cible "compilCGui" est exécutée en la déclarant correctement sous VSCode
+compilCGui :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation CGui
+	$(GPP) $(SRC)/CGui.cpp -o $(BIN)/CGui.o -c
+
+# La cible "compilTestCGui" est exécutée en la déclarant correctement sous VSCode
+compilTestCGui :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation testCGui
+	$(GPP) $(SRC)/testCGui.cpp $(BIN)/CBateau.o $(BIN)/CArmada.o $(BIN)/CCoups.o $(BIN)/CGui.o -o $(BIN)/testCGui.bin
+
+# ---------------------- Compil des autres classes
+
+# La cible "compilCCoups" est exécutée en la déclarant correctement sous VSCode
+compilCCoups :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation CCoups
+	$(GPP) $(SRC)/CCoups.cpp -o $(BIN)/CCoups.o -c
+
+# La cible "compilCSocket" est exécutée en la déclarant correctement sous VSCode
+compilCSocket :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation CSocket
+	$(GPP) $(SRC)/CSocket.cpp -o $(BIN)/CSocket.o -c
+
+# La cible "compilCClientSocket" est exécutée en la déclarant correctement sous VSCode
+compilCClientSocket :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation CClientSocket
+	$(GPP) $(SRC)/CClientSocket.cpp -o $(BIN)/CClientSocket.o -c
+
+# La cible "compilCServerSocket" est exécutée en la déclarant correctement sous VSCode
+compilCServerSocket :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation CServerSocket
+	$(GPP) $(SRC)/CServerSocket.cpp -o $(BIN)/CServerSocket.o -c
+
+# La cible "compilCJoueur" est exécutée en la déclarant correctement sous VSCode
+compilCJoueur :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation CJoueur
+	$(GPP) $(SRC)/CJoueur.cpp -o $(BIN)/CJoueur.o -c
+
+# La cible "compilCJoueurCli" est exécutée en la déclarant correctement sous VSCode
+compilCJoueurCli :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation CJoueurCli
+	$(GPP) $(SRC)/CJoueurCli.cpp -o $(BIN)/CJoueurCli.o -c
+
+# La cible "compilCJoueurServ" est exécutée en la déclarant correctement sous VSCode
+compilCJoueurServ :
+	@# Précéder chaque commande d'une TABULATION
+	@echo Compilation CJoueurServ
+	$(GPP) $(SRC)/CJoueurServ.cpp -o $(BIN)/CJoueurServ.o -c
+
 # ICI, la cible de compilation finale pour obtenir main.bin
 # A executer A LA FIN du projet en s'assurant que toutes les classes du projet compilent et s'exécutent sans erreurs !
 # La cible "lanceurFinal"
 lanceurFinal : deleteAll compilCBateau compilCArmada compilCCoups compilCGui compilCSocket compilCClientSocket compilCServerSocket compilCJoueur compilCJoueurCli compilCJoueurServ
 	@echo Compilation lanceurFinal
 	$(GPP) $(SRC)/main.cpp $(BIN)/CBateau.o $(BIN)/CArmada.o $(BIN)/CCoups.o $(BIN)/CGui.o $(BIN)/CSocket.o $(BIN)/CClientSocket.o $(BIN)/CServerSocket.o $(BIN)/CJoueur.o $(BIN)/CJoueurCli.o $(BIN)/CJoueurServ.o -o $(BIN)/main.bin
-
-

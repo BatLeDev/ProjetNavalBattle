@@ -1,3 +1,0 @@
-Porte-avion 1 4
-2 Croiseur5
-   # il y a des espaces avant le commentaire
