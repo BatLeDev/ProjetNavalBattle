@@ -1,6 +1,3 @@
-/*
- */
-
 #ifndef CGUI_H
 #define CGUI_H
 
@@ -37,5 +34,25 @@ class CGui : public CBaseJeu
 
     friend ostream &operator<<(ostream &os, CGui &theG); // Surcharge de l'opérateur << pour afficher le plateau de jeu
 };
+
+// Couleurs pour l'affichage (Code fourni par Raphael, merci a lui :) )
+
+#define STYLE_BOLD "1"
+
+#define COLOR_RED "31"
+#define COLOR_GREEN "32"
+#define COLOR_YELLOW "33"
+#define COLOR_BLUE "34"
+#define COLOR_MAGENTA "35"
+#define COLOR_CYAN "36"
+#define COLOR_WHITE "37"
+#define COLOR_GRAY "90"
+#define BG_WHITE "47"
+
+#define COLORED_TEXT(msg, color) "\033[" << color << "m" << msg << "\033[0m"
+#define BG_TEXT(msg, bg) "\033[" << bg << "m" << msg << "\033[0m"
+#define COLORED_BG_TEXT(msg, color, bg) "\033[" << color << ";" << bg << "m" << msg << "\033[0m"
+#define STYLED_TEXT(msg, style, color) "\033[" << style << ";" << color << "m" << msg << "\033[0m"
+#define STYLED_BG_TEXT(msg, style, color, bg) "\033[" << style << ";" << color << ";" << bg << "m" << msg << "\033[0m"
 
 #endif // CGUI_H

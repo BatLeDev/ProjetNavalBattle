@@ -82,7 +82,7 @@ void CArmada::getArmadaFromFile()
 bool CArmada::placerAleatoirement() 
 {
   bool result = true;
-  srand(time(NULL));
+  // srand(time(NULL));
   int effectif = getEffectifTotal();
 
   for (int i = 0; i < effectif; i++) // Parcour tous les bateau de la liste

@@ -69,7 +69,7 @@ bool CGui::positionnerBateaux()
   {
     cout << "Erreur : pointeur non initialisé" << endl;
   } else {
-    m_pArmada->placerAleatoirement();
+    ret = m_pArmada->placerAleatoirement();
   }
   return ret;
 }
@@ -79,13 +79,13 @@ bool CGui::positionnerBateaux()
 pair<int, int> CGui::choisirAttaque()
 {
   int x, y;
-  cout << "Entrez les coordonnées de votre attaque (ligne, colonne) : ";
-  cin >> x >> y;
-
-  while (x < 0 || x >= (TAILLE_GRILLE - 1) || y < 0 || y >= (TAILLE_GRILLE - 1))
+  cout << "Entrez les coordonnées de votre attaque (sous la forme 'ligne colonne') : ";
+  
+  while (!(cin >> x >> y) || x < 0 || x >= (TAILLE_GRILLE - 1) || y < 0 || y >= (TAILLE_GRILLE - 1))
   {
     cout << "Erreur : coordonnées invalides, veuillez réessayer : ";
-    cin >> x >> y;
+    cin.clear();
+    cin.ignore(); // Cette ligne viens vider le buffer d'entrée, sinon j'ai une boucle infinie
   }
   return make_pair(x, y);
 }
@@ -219,7 +219,8 @@ void CGui::remplirDeuxGrilles(ostream &os)
 
   for (size_t i = 0; i < nbLignes; ++i) // Pour chaque lignes, on les fusionnes pour ne recréé plus qu'une seul ligne, séparé par une tabulation
   {
-    os << lignesJoueur[i] << "\t" << lignesAdv[i] << endl; // '\t' est le caractère de tabulation sous linux,
+    // os << lignesJoueur[i] << "\t\t" << lignesAdv[i] << endl; // '\t' est le caractère de tabulation sous linux
+    os << lignesJoueur[i] << "    " << BG_TEXT(" ", BG_WHITE) << "    " << lignesAdv[i] << endl;
   }
 }
 
@@ -233,7 +234,23 @@ void CGui::remplirDeuxGrilles(ostream &os)
  */
 void CGui::afficherLaGrille(ostream &os, string jouOuAdv)
 {
-  os << "Grille du " << jouOuAdv << " : " << endl;
+  if (jouOuAdv != "joueur" && jouOuAdv != "adversaire")
+  {
+    cout << "Erreur : mot clé inconnu" << endl;
+    return;
+  }
+
+  if (jouOuAdv == "joueur")
+  {
+    // os << "Grille du joueur : " << endl;
+    os << STYLED_TEXT("-- Grille du joueur --", STYLE_BOLD, COLOR_GREEN) << endl;
+  }
+  else if (jouOuAdv == "adversaire")
+  {
+    // os << "Grille de l'adversaire : " << endl;
+    os << STYLED_TEXT("-- Grille adverse --", STYLE_BOLD, COLOR_RED) << endl;
+  }
+
   os << "  ";
   for (int i = 0; i < TAILLE_GRILLE - 1; i++)
   {
@@ -246,17 +263,23 @@ void CGui::afficherLaGrille(ostream &os, string jouOuAdv)
     os << i << " ";
     for (int j = 0; j < TAILLE_GRILLE - 1; j++)
     {
-      if (jouOuAdv == "joueur")
+      char c = (jouOuAdv == "joueur") ? m_grilleJou[i][j] : m_grilleAdv[i][j];
+      
+      if (c == 'B')
       {
-        os << m_grilleJou[i][j] << " ";
+        os << COLORED_TEXT(c, COLOR_YELLOW) << " ";
       }
-      else if (jouOuAdv == "adversaire")
+      else if (c == 'X')
       {
-        os << m_grilleAdv[i][j] << " ";
+        os << COLORED_TEXT(c, COLOR_RED) << " ";
+      }
+      else if (c == 'O')
+      {
+        os << COLORED_TEXT(c, COLOR_BLUE) << " ";
       }
       else
       {
-        os << "Erreur : mot clé inconnu" << endl;
+        os << c << " ";
       }
     }
     os << endl;
@@ -287,7 +310,7 @@ CGui::~CGui()
 
 /*
  * Surcharge de l'opérateur d'affectation
- * Respect de la règle des 3 car m_pDegats est un pointeur (tableau dynamique)
+ * Respect de la règle des 3 car m_pArmada et m_pCoups sont des pointeurs
  * @param b le bateau à copier
  */
 CGui &CGui::operator=(const CGui &bToCopy)
@@ -323,7 +346,8 @@ CGui &CGui::operator=(const CGui &bToCopy)
 
 ostream &operator<<(ostream &os, CGui &theG)
 {
-  os << "--------------- Plateau de jeu : ---------------" << endl;
+  // os << "------------------ Plateau de jeu : ------------------" << endl;
+  os << STYLED_TEXT("----------------- Plateau de jeu : -----------------", STYLE_BOLD, COLOR_BLUE) << endl;
   theG.remplirDeuxGrilles(os);
   return os;
 }
