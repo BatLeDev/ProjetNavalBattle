@@ -17,8 +17,8 @@ class CGui : public CBaseJeu
     CArmada *m_pArmada; // Pointeur vers l'unique armada du joueur
     CCoups *m_pCoups; // Pointeur vers l'unique structure d'enregistrement des tirs
 
-    virtual void remplirDeuxGrilles(ostream &os) = 0;                // Génère et affiche les grilles des 2 joueurs, du point de vue du joueur
-    virtual void afficherLaGrille(ostream &os, string jouOuAdv) = 0; // affiche la grille du "joueur" ou "adversaire" avec les légendes
+    virtual void remplirDeuxGrilles(ostream &os);                // Génère et affiche les grilles des 2 joueurs, du point de vue du joueur
+    virtual void afficherLaGrille(ostream &os, string jouOuAdv); // affiche la grille du "joueur" ou "adversaire" avec les légendes
 
   public:
     CGui(); // Constructeur par défaut initialisant m_pArmada et m_pCoups à NULL
@@ -30,10 +30,10 @@ class CGui : public CBaseJeu
     virtual ~CGui();                              // destructeur
 
     void setArmadaCoups(CArmada *pArmada, CCoups *pCoups); // Modificateur : mise à jour des attributs
-    virtual bool positionnerBateaux() = 0;       // Méthode appelée au début du jeu pour placer tous les bateaux sur la grille
-    virtual pair<int, int> choisirAttaque() = 0; // Demande à l'utilisateur des coordonnées de tir
-    virtual void afficheGagne() = 0;             // Affiche un message de victoire
-    virtual void affichePerdu() = 0;             // Affiche un message d'échec
+    virtual bool positionnerBateaux();       // Méthode appelée au début du jeu pour placer tous les bateaux sur la grille
+    virtual pair<int, int> choisirAttaque(); // Demande à l'utilisateur des coordonnées de tir
+    virtual void afficheGagne();             // Affiche un message de victoire
+    virtual void affichePerdu();             // Affiche un message d'échec
 
     friend ostream &operator<<(ostream &os, CGui &theG); // Surcharge de l'opérateur << pour afficher le plateau de jeu
 };
