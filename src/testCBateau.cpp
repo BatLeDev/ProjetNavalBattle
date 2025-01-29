@@ -36,6 +36,10 @@ void testConstructeur1()
   {
     cout << "Erreur : nom du bateau incorrect" << endl;
   }
+  else
+  {
+    cout << "Ok" << endl;
+  }
   cout << "------------------------------" << endl;
 }
 
@@ -45,24 +49,23 @@ void testConstructeur2EtAccesseurs()
 
   CBateau b2 = CBateau("porte-avion", {2, 3}, 5);
   cout << b2 << endl;
+  pair<int, int> p = b2.getPosition();
 
-  // nom
-  if (b2.getNom() != "porte-avion")
+  if (b2.getNom() != "porte-avion") // nom
   {
     cout << "Erreur : nom du bateau incorrect" << endl;
   }
-
-  // taille
-  if (b2.getTaille() != 5)
+  else if (b2.getTaille() != 5) // taille
   {
     cout << "Erreur : taille du bateau incorrecte" << endl;
   }
-
-  // position
-  pair<int, int> p = b2.getPosition();
-  if (p.first != 2 || p.second != 3)
+  else if (p.first != 2 || p.second != 3) // position
   {
     cout << "Erreur : position du bateau incorrecte" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
   }
 
   cout << "------------------------------" << endl;
@@ -84,6 +87,10 @@ void testCopyConstructeur()
   if (b9.getNom() != "voilier")
   {
     cout << "Erreur : nom du bateau incorrect" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
   }
 
   // m_pDegats
@@ -119,6 +126,10 @@ void testOperatorAffectation()
   if (b11.getNom() != "voilier")
   {
     cout << "Erreur : nom du bateau incorrect" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
   }
 
   // m_pDegats
@@ -162,6 +173,10 @@ void testSetPosition()
   {
     cout << "Erreur : position du bateau incorrecte" << endl;
   }
+  else
+  {
+    cout << "Ok" << endl;
+  }
 
   cout << "Cas limite : Déplacement du bateau en (9,6) (en bordure de grille)" << endl;
   b3.setPosition(9, 6);
@@ -169,6 +184,10 @@ void testSetPosition()
   if (p.first != 9 || p.second != 6)
   {
     cout << "Erreur : position du bateau incorrecte" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
   }
 
   cout << "Cas d'erreur : Déplacement du bateau en (9,7) (hors grille)" << endl;
@@ -178,6 +197,10 @@ void testSetPosition()
   if (p.first != 9 || p.second != 6)
   {
     cout << "Erreur : le bateau n'aurai pas du bouger" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
   }
 
   cout << "------------------------------" << endl;
@@ -194,11 +217,19 @@ void testTirAdverse()
   {
     cout << "Erreur : le tir aurait du toucher le bateau" << endl;
   }
+  else
+  {
+    cout << "Ok" << endl;
+  }
 
   cout << "Cas normal : Tir en (3,8) (ne touche pas le bateau)" << endl;
   if (b4.tirAdverse({3, 8}))
   {
     cout << "Erreur : le tir n'aurait pas du toucher le bateau" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
   }
 
   cout << "Cas limite : Tir en (3,6) (touche le bout du bateau)" << endl;
@@ -206,11 +237,19 @@ void testTirAdverse()
   {
     cout << "Erreur : le tir aurait du toucher le bateau" << endl;
   }
+  else
+  {
+    cout << "Ok" << endl;
+  }
 
   cout << "Cas limite : Tir en (3,5) (case déjà touchée)" << endl;
   if (b4.tirAdverse({3, 5}))
   {
     cout << "Erreur : le tir n'aurait pas du toucher le bateau, car le bateau étais déjà touché ici" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
   }
 
   cout << "Cas d'erreur : Tir en dehors de la grille" << endl;
@@ -234,17 +273,29 @@ void testGetDegats()
   {
     cout << "Erreur : la case touchée n'est pas considérée comme touchée" << endl;
   }
+  else
+  {
+    cout << "Ok" << endl;
+  }
 
   cout << "Cas normal : Dégats d'une case non touché" << endl;
   if (b5.getDegats(0)) // Check de l'indice 0 = 1ère case du bateau
   {
     cout << "Erreur : la case non touchée est considérée comme touchée" << endl;
   }
+  else
+  {
+    cout << "Ok" << endl;
+  }
 
   cout << "Cas limite : Dégats de la dernière case du bateau" << endl;
   if (b5.getDegats(2)) // Check de l'indice 2 = 3ème case du bateau
   {
     cout << "Erreur : la dernière case du bateau est considérée comme non touchée" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
   }
 
   cout << "Cas d'erreur : Dégats d'une case hors bateau" << endl;
@@ -266,6 +317,10 @@ void testEstCoule()
   {
     cout << "Erreur : le bateau est considéré comme coulé alors qu'il ne l'est pas" << endl;
   }
+  else
+  {
+    cout << "Ok" << endl;
+  }
 
   cout << "Cas normal : Bateau coulé" << endl;
   b6.tirAdverse({3, 4}); // Tire sur la 1ère case du bateau
@@ -275,6 +330,10 @@ void testEstCoule()
   {
     cout << "Erreur : le bateau est considéré comme non coulé alors qu'il est sencé l'etre" << endl;
   }
+  else
+  {
+    cout << "Ok" << endl;
+  }
 
   cout << "Cas limite : Bateau presque coulé" << endl;
   b7.tirAdverse({3, 4}); // Tire sur la 1ère case du bateau
@@ -282,6 +341,10 @@ void testEstCoule()
   if (b7.estCoule())
   {
     cout << "Erreur : le bateau est considéré comme coulé alors qu'il ne l'est pas" << endl;
+  }
+  else
+  {
+    cout << "Ok" << endl;
   }
 
   cout << "------------------------------" << endl;
